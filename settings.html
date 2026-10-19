@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | TaskFlow</title>
+
+    <script>
+        if (!localStorage.getItem("taskflow_current_user")) {
+            window.location.replace("login.html");
+        }
+
+        // Apply saved theme before the page displays.
+        if (localStorage.getItem("taskflow_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body.dark-mode,
+        html.dark-mode body {
+            background: #171824 !important;
+            color: #f3f3f8 !important;
+        }
+
+        body.dark-mode .dashboard-container,
+        body.dark-mode .main-content,
+        body.dark-mode .settings-page {
+            background: #171824 !important;
+            color: #f3f3f8 !important;
+        }
+
+        .settings-page {
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .settings-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .settings-heading h1 {
+            margin-bottom: 8px;
+        }
+
+        .settings-heading p,
+        .settings-description {
+            color: #777;
+        }
+
+        .settings-card {
+            background: #fff;
+            color: #222;
+            padding: 25px;
+            margin-bottom: 22px;
+            border-radius: 14px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            max-width: 850px;
+            box-sizing: border-box;
+        }
+
+        .settings-card h2 {
+            margin-top: 0;
+        }
+
+        .settings-description {
+            margin-bottom: 22px;
+        }
+
+        .settings-form-group {
+            margin-bottom: 18px;
+        }
+
+        .settings-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .settings-form-group input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .settings-button {
+            background: #6558f5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .settings-button:hover {
+            background: #5144dc;
+        }
+
+        .settings-message {
+            margin-top: 12px;
+            color: #218444;
+        }
+
+        .appearance-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appearance-option p {
+            margin: 5px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .theme-switch {
+            width: 48px;
+            height: 26px;
+            cursor: pointer;
+            accent-color: #6558f5;
+            flex-shrink: 0;
+        }
+
+        /* Profile and Settings in dark mode */
+        body.dark-mode .settings-card {
+            background: #252638 !important;
+            color: #f3f3f8 !important;
+            border: 1px solid #38394d;
+        }
+
+        body.dark-mode .settings-card h2,
+        body.dark-mode .settings-card strong,
+        body.dark-mode .settings-heading h1,
+        body.dark-mode .settings-form-group label {
+            color: #f3f3f8 !important;
+        }
+
+        body.dark-mode .settings-description,
+        body.dark-mode .settings-heading p,
+        body.dark-mode .appearance-option p {
+            color: #c0c1d0 !important;
+        }
+
+        body.dark-mode .settings-form-group input {
+            background: #171824 !important;
+            color: #fff !important;
+            border-color: #48495e !important;
+        }
+
+        body.dark-mode .appearance-option {
+            border-color: #48495e !important;
+        }
+
+        @media (max-width: 650px) {
+            .settings-page {
+                padding: 16px;
+            }
+
+            .settings-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <h2 class="logo">TaskFlow</h2>
+
+            <nav>
+                <a href="index.html" class="nav-link">Dashboard</a>
+                <a href="task.html" class="nav-link">My Tasks</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="calender.html" class="nav-link">Calendar</a>
+                <a href="settings.html" class="nav-link active">Settings</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <button id="logoutButton" type="button">Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content settings-page">
+
+            <header class="settings-heading">
+                <div>
+                    <h1>Settings</h1>
+                    <p>Manage your profile and personalize TaskFlow.</p>
+                </div>
+
+                <div class="user-profile">
+                    <div class="avatar" id="userInitial">U</div>
+                    <span id="userName">User</span>
+                </div>
+            </header>
+
+            <section class="settings-card">
+                <h2>My Profile</h2>
+                <p class="settings-description">
+                    Update your display name and email address.
+                </p>
+
+                <form id="profileForm">
+                    <div class="settings-form-group">
+                        <label for="profileName">Full name</label>
+                        <input
+                            type="text"
+                            id="profileName"
+                            placeholder="Enter your name"
+                            required
+                        >
+                    </div>
+
+                    <div class="settings-form-group">
+                        <label for="profileEmail">Email address</label>
+                        <input
+                            type="email"
+                            id="profileEmail"
+                            placeholder="you@example.com"
+                        >
+                    </div>
+
+                    <button type="submit" class="settings-button">
+                        Save Profile
+                    </button>
+
+                    <p id="profileMessage" class="settings-message"
+                       role="status"></p>
+                </form>
+            </section>
+
+            <section class="settings-card">
+                <h2>Appearance</h2>
+                <p class="settings-description">
+                    Customize how TaskFlow looks.
+                </p>
+
+                <div class="appearance-option">
+                    <div>
+                        <strong>Dark mode</strong>
+                        <p>Use a darker background across TaskFlow pages.</p>
+                    </div>
+
+                    <input
+                        type="checkbox"
+                        id="darkModeToggle"
+                        class="theme-switch"
+                        aria-label="Enable dark mode"
+                    >
+                </div>
+
+                <p id="themeMessage" class="settings-message"
+                   role="status"></p>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Load and display the saved profile.
+        const profileForm = document.getElementById("profileForm");
+        const profileName = document.getElementById("profileName");
+        const profileEmail = document.getElementById("profileEmail");
+        const profileMessage = document.getElementById("profileMessage");
+
+        function readUser() {
+            try {
+                return JSON.parse(
+                    localStorage.getItem("taskflow_current_user") || "{}"
+                );
+            } catch (error) {
+                return {};
+            }
+        }
+
+        function displayProfile(name) {
+            const safeName = name && name.trim() ? name.trim() : "User";
+
+            document.getElementById("userName").textContent = safeName;
+            document.getElementById("userInitial").textContent =
+                safeName.charAt(0).toUpperCase();
+        }
+
+        let currentUser = readUser();
+
+        profileName.value = currentUser.name || "";
+        profileEmail.value = currentUser.email || "";
+        displayProfile(currentUser.name || "User");
+
+        profileForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = profileName.value.trim();
+
+            if (!name) {
+                profileMessage.textContent = "Please enter your name.";
+                return;
+            }
+
+            const updatedUser = {
+                ...currentUser,
+                name: name,
+                email: profileEmail.value.trim()
+            };
+
+            try {
+                localStorage.setItem(
+                    "taskflow_current_user",
+                    JSON.stringify(updatedUser)
+                );
+
+                currentUser = updatedUser;
+                displayProfile(name);
+                profileMessage.textContent = "Profile saved successfully!";
+            } catch (error) {
+                profileMessage.textContent =
+                    "Could not save your profile. Please try again.";
+            }
+        });
+
+        // Theme settings saved for the whole website.
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        const themeMessage = document.getElementById("themeMessage");
+
+        function applyTheme(isDark) {
+            document.body.classList.toggle("dark-mode", isDark);
+            document.documentElement.classList.toggle("dark-mode", isDark);
+            darkModeToggle.checked = isDark;
+        }
+
+        const savedTheme = localStorage.getItem("taskflow_theme");
+        applyTheme(savedTheme === "dark");
+
+        darkModeToggle.addEventListener("change", function() {
+            const theme = darkModeToggle.checked ? "dark" : "light";
+
+            try {
+                localStorage.setItem("taskflow_theme", theme);
+                applyTheme(theme);
+
+                themeMessage.textContent = theme === "dark"
+                    ? "Dark mode enabled."
+                    : "Light mode enabled.";
+            } catch (error) {
+                themeMessage.textContent =
+                    "Could not save the appearance setting.";
+            }
+        });
+
+        // Logout
+        document.getElementById("logoutButton").addEventListener("click", () => {
+            localStorage.removeItem("taskflow_current_user");
+            window.location.replace("login.html");
+        });
+    </script>
+</body>
+</html>

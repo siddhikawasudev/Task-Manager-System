@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        if (!localStorage.getItem("taskflow_current_user")) {
+            window.location.replace("login.html");
+        }
+    </script>
+</head>
+<body class="dashboard-page">
+    <div class="app">
+
+        <aside class="sidebar">
+            <a href="index.html" class="brand">
+                <span class="brand-icon">T</span>
+                <span>TaskFlow</span>
+            </a>
+
+            <p class="nav-heading">WORKSPACE</p>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-link active">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+                <a href="task.html" class="nav-link">
+                    <span class="nav-icon">✓</span>
+                    My Tasks
+                </a>
+                <a href="projects.html" class="nav-link">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+                <a href="calender.html" class="nav-link">
+                    <span class="nav-icon">▦</span>
+                    Calendar
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-note-icon">✦</div>
+                <h3>Stay on track!</h3>
+                <p>Small steps every day lead to big results.</p>
+            </div>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                Your workspace is ready
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <div class="welcome">
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1>Dashboard <span class="wave">✦</span></h1>
+                    <p class="subtitle">
+                        Welcome back! Let's make today productive.
+                    </p>
+                </div>
+
+                <div class="user-profile">
+                    <div class="avatar" id="userInitial">U</div>
+                    <div class="profile-text">
+                        <span class="profile-label">Signed in as</span>
+                        <span id="userName">User</span>
+                    </div>
+                    <button id="logoutButton" class="logout-button" type="button">
+                        Logout
+                    </button>
+                </div>
+            </header>
+
+            <section class="dashboard-banner">
+                <div class="banner-content">
+                    <span class="banner-tag">A FRESH START</span>
+                    <h2>Make today count.</h2>
+                    <p>
+                        Focus on what matters most. One task at a time.
+                    </p>
+                    <a href="#taskSection" class="banner-button">
+                        View my tasks <span>→</span>
+                    </a>
+                </div>
+                <div class="banner-decoration" aria-hidden="true">
+                    <div class="decoration-circle circle-one"></div>
+                    <div class="decoration-circle circle-two"></div>
+                    <div class="decoration-card">
+                        <span>✓</span>
+                        <div>
+                            <strong>You've got this!</strong>
+                            <small>Progress starts here</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats">
+                <article class="stat-card total-card">
+                    <div class="stat-top">
+                        <span class="stat-icon">▤</span>
+                        <span class="stat-caption">ALL TASKS</span>
+                    </div>
+                    <h2 id="totalTasks">0</h2>
+                    <p>Total tasks in your list</p>
+                </article>
+
+                <article class="stat-card completed-card">
+                    <div class="stat-top">
+                        <span class="stat-icon">✓</span>
+                        <span class="stat-caption">COMPLETED</span>
+                    </div>
+                    <h2 id="completedTasks">0</h2>
+                    <p>Tasks you've finished</p>
+                </article>
+
+                <article class="stat-card pending-card">
+                    <div class="stat-top">
+                        <span class="stat-icon">◷</span>
+                        <span class="stat-caption">PENDING</span>
+                    </div>
+                    <h2 id="pendingTasks">0</h2>
+                    <p>Tasks still to do</p>
+                </article>
+            </section>
+
+            <section class="task-panel" id="taskSection">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">PLAN YOUR DAY</p>
+                        <h2>My Tasks</h2>
+                        <p class="section-description">
+                            Add a task, set its priority, and choose a due date.
+                        </p>
+                    </div>
+                    <span class="task-heading-icon">✎</span>
+                </div>
+
+                <form id="taskForm" class="task-form">
+                    <input
+                        type="text"
+                        id="taskInput"
+                        placeholder="What do you need to get done?"
+                        aria-label="Task title"
+                        required
+                    >
+
+                    <select id="taskPriority" aria-label="Task priority">
+                        <option value="Medium">Medium priority</option>
+                        <option value="High">High priority</option>
+                        <option value="Low">Low priority</option>
+                    </select>
+
+                    <input
+                        type="date"
+                        id="taskDueDate"
+                        aria-label="Task due date"
+                    >
+
+                    <button type="submit" class="add-button">
+                        <span>+</span> Add Task
+                    </button>
+                </form>
+
+                <div class="task-list-header">
+                    <div>
+                        <h3>Your task list</h3>
+                        <p>Keep your next steps organized.</p>
+                    </div>
+
+                    <div class="task-controls">
+                        <input
+                            type="search"
+                            id="taskSearch"
+                            placeholder="Search tasks..."
+                            aria-label="Search tasks"
+                        >
+
+                        <select id="taskFilter" aria-label="Filter tasks">
+                            <option value="All">All tasks</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="taskList" class="task-list"></div>
+
+                <p id="emptyMessage" class="empty-message">
+                    <span class="empty-icon">✦</span>
+                    <strong>No tasks yet</strong>
+                    <span>Add your first task above to get started!</span>
+                </p>
+            </section>
+
+            <footer class="page-footer">
+                <span>TaskFlow</span> — A little progress each day adds up.
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="profile.js"></script>
+
+</body>
+</html>

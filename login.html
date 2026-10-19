@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TaskFlow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: #f5f4ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            color: #282542;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 590px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 65px rgba(48, 37, 100, 0.12);
+        }
+
+        .welcome-panel {
+            background: linear-gradient(145deg, #7667ff, #513bd1);
+            color: white;
+            padding: 55px 42px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 29px;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            color: #d7d0ff;
+        }
+
+        .welcome-content {
+            margin: 45px 0;
+        }
+
+        .welcome-content h1 {
+            font-size: 39px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .welcome-content p {
+            color: #e5e0ff;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .feature-list li {
+            margin: 17px 0;
+            font-size: 14px;
+            color: #f0edff;
+        }
+
+        .check {
+            display: inline-flex;
+            width: 23px;
+            height: 23px;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+        }
+
+        .welcome-footer {
+            color: #ddd7ff;
+            font-size: 12px;
+        }
+
+        .form-panel {
+            padding: 55px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-panel h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .form-subtitle {
+            color: #85839a;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 34px;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 9px;
+            color: #393651;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #dedcea;
+            border-radius: 10px;
+            outline: none;
+            background: #fcfbff;
+            font-size: 14px;
+            color: #282542;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #7667ff;
+            box-shadow: 0 0 0 3px rgba(118, 103, 255, 0.12);
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap input {
+            padding-right: 75px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #6c5ce7;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #6c5ce7;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 7px;
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            background: #5745d0;
+            transform: translateY(-1px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+            margin-top: 17px;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff0f0;
+            color: #b42323;
+        }
+
+        .message.success {
+            display: block;
+            background: #eafaf0;
+            color: #217747;
+        }
+
+        .signup-text {
+            text-align: center;
+            color: #85839a;
+            font-size: 13px;
+            margin-top: 25px;
+        }
+
+        .signup-text a {
+            color: #6c5ce7;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+
+        .demo-note {
+            margin-top: 22px;
+            background: #f5f3ff;
+            padding: 13px;
+            border-radius: 9px;
+            color: #62568f;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 750px) {
+            .login-container {
+                max-width: 470px;
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-panel {
+                padding: 28px;
+            }
+
+            .welcome-content {
+                margin: 30px 0 15px;
+            }
+
+            .welcome-content h1 {
+                font-size: 30px;
+            }
+
+            .feature-list {
+                margin-top: 18px;
+            }
+
+            .welcome-footer {
+                margin-top: 20px;
+            }
+
+            .form-panel {
+                padding: 35px 28px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 12px;
+            }
+
+            .welcome-panel,
+            .form-panel {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <section class="welcome-panel">
+        <div class="brand">Task<span>Flow</span></div>
+
+        <div class="welcome-content">
+            <h1>Get things done, one task at a time.</h1>
+
+            <p>
+                Welcome to your personal workspace.
+                Organize your tasks, manage projects, and stay on top
+                of your goals.
+            </p>
+
+            <ul class="feature-list">
+                <li><span class="check">✓</span> Organize your daily tasks</li>
+                <li><span class="check">✓</span> Track project progress</li>
+                <li><span class="check">✓</span> Never miss a due date</li>
+            </ul>
+        </div>
+
+        <div class="welcome-footer">
+            Your workspace. Your progress. Your success.
+        </div>
+    </section>
+
+    <section class="form-panel">
+        <h2>Welcome back!</h2>
+        <p class="form-subtitle">
+            Enter your details to access your TaskFlow workspace.
+        </p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrap">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword"
+                    >
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton">
+                Log In
+            </button>
+
+            <div id="message" class="message" role="status"></div>
+        </form>
+
+        <p class="signup-text">
+            New to TaskFlow?
+            <a href="signup.html">Create an account</a>
+        </p>
+
+        <div class="demo-note">
+            <strong>Frontend demo:</strong> This page uses your existing
+            browser-based login setup. It does not provide secure,
+            server-backed authentication.
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginButton = document.getElementById("loginButton");
+    const message = document.getElementById("message");
+    const togglePassword = document.getElementById("togglePassword");
+
+    // Show or hide the password
+    togglePassword.addEventListener("click", function () {
+        const showing = passwordInput.type === "text";
+
+        passwordInput.type = showing ? "password" : "text";
+        togglePassword.textContent = showing ? "Show" : "Hide";
+    });
+
+    // Login using the existing localStorage account format
+    loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const email = emailInput.value.trim().toLowerCase();
+        const password = passwordInput.value;
+
+        message.className = "message";
+        message.textContent = "";
+
+        if (!email || !password) {
+            message.textContent = "Please enter your email and password.";
+            message.className = "message error";
+            return;
+        }
+
+        let users;
+
+        try {
+            users = JSON.parse(localStorage.getItem("taskflow_users") || "[]");
+        } catch (error) {
+            users = [];
+        }
+
+        // Support a previously saved demo account, if your project uses one.
+        const savedUser = users.find(function (user) {
+            return user.email &&
+                user.email.toLowerCase() === email &&
+                user.password === password;
+        });
+
+        if (savedUser) {
+            const currentUser = {
+                name: savedUser.name || email.split("@")[0],
+                email: savedUser.email
+            };
+
+            localStorage.setItem(
+                "taskflow_current_user",
+                JSON.stringify(currentUser)
+            );
+
+            message.textContent = "Login successful! Opening TaskFlow...";
+            message.className = "message success";
+            loginButton.disabled = true;
+
+            setTimeout(function () {
+                window.location.href = "index.html";
+            }, 500);
+
+            return;
+        }
+
+        message.textContent =
+            "Account not found or password is incorrect. If your existing login used a different storage format, tell me and we will connect it correctly.";
+
+        message.className = "message error";
+    });
+</script>
+
+</body>
+</html>
